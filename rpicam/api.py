@@ -35,3 +35,4 @@ def get_image(id):
     response = make_response(resp["image"])
     response.headers.set("Content-Type", "image/jpeg")
     return response
+
