@@ -11,5 +11,7 @@ services:
       - default
     volumes:
       - ./rpicam:/app/rpicam
+    devices:
+      - /dev/video0:/dev/video0
     stop_grace_period: 1s
     restart: always

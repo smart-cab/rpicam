@@ -1,9 +1,17 @@
-from redis import Redis
 import rpicam
+import argparse
 
-from flask import Blueprint, make_response
+from redis import Redis
+from flask import Blueprint, abort, make_response
 
-r = Redis("127.0.0.1", port=6379)
+
+def get_redis_ip():
+    REDIS_IP_FILENAME = "redis_ip"
+    with open(f'{"/".join(__file__.split("/")[:-2])}/{REDIS_IP_FILENAME}') as file:
+        return file.read().rstrip()
+
+
+r = Redis(get_redis_ip(), port=6379)
 
 blueprint = Blueprint(name="devices", import_name=__name__)
 
@@ -15,13 +23,15 @@ def status():
 
 @blueprint.route("/capture", methods=["GET"])
 def capture():
-    rpicam.capture_and_send(1, r)
-    return {"status": "ok"}
+    id = rpicam.capture_and_send(r)
+    return {"filename": f"image{id}.jpg"}
 
 
 @blueprint.route("/image<id>.jpg")
 def get_image(id):
-    resp = rpicam.get_from_redis(id, r)
+    resp = rpicam.get_from_redis(f"webcam:{id}", r)
+    if resp is None:
+        abort(404)
     response = make_response(resp["image"])
     response.headers.set("Content-Type", "image/jpeg")
     return response

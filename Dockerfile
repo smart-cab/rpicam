@@ -1,4 +1,4 @@
-FROM python:alpine3.18
+FROM python:slim
 
 ENV PYTHONFAULTHANDLER=1 \
   PYTHONUNBUFFERED=1 \
@@ -10,7 +10,7 @@ ENV PYTHONFAULTHANDLER=1 \
 
 WORKDIR /app
 
-RUN apk upgrade --no-cache && apk add --no-cache libgcc gcc musl-dev bind-tools yaml-dev libffi libffi-dev
+RUN apt-get update && apt-get install -y libglib2.0-0 libgl1-mesa-glx && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir "poetry==$POETRY_VERSION"
 
@@ -21,4 +21,4 @@ COPY . .
 RUN poetry install --no-cache --no-interaction --no-ansi --only main
 
 CMD ["poetry", "run", "python", "rpicam"]
-EXPOSE ${SERVER_PORT}
+EXPOSE 5050
