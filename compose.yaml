@@ -6,7 +6,7 @@ services:
     ports:
       - 5050:5050
     environment:
-      - PROD=false
+      - PROD=true
     networks:
       - default
     volumes:
