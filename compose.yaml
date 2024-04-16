@@ -1,0 +1,15 @@
+services:
+  rpicam:
+    container_name: rpicam
+    build:
+      context: .
+    ports:
+      - 5050:5050
+    environment:
+      - PROD=false
+    networks:
+      - default
+    volumes:
+      - ./rpicam:/app/rpicam
+    stop_grace_period: 1s
+    restart: always
