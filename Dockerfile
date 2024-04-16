@@ -14,7 +14,7 @@ RUN apk upgrade --no-cache && apk add --no-cache libgcc gcc musl-dev bind-tools 
 
 RUN pip install --no-cache-dir "poetry==$POETRY_VERSION"
 
-COPY pyproject.toml poetry.lock .env README.md .
+COPY pyproject.toml poetry.lock README.md .
 RUN poetry config --no-cache virtualenvs.create false && poetry install --no-cache --no-root --no-interaction --no-ansi --only main
 
 COPY . .
