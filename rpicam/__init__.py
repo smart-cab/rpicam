@@ -32,6 +32,7 @@ def get_from_redis(name: str, r: Redis):
 
 
 def get_last_nth_from_redis(n: int, r: Redis):
+    print("000000000000")
     return [
         get_from_redis(name, r)
         for name in r.sort("webcams", start=0, num=n, by="*->timestamp", desc=True)

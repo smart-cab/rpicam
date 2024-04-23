@@ -1,4 +1,5 @@
 import os
+import ssl
 import api
 import logging
 import multiprocessing
@@ -56,8 +57,14 @@ class WSGIApplication(gunicorn.app.base.BaseApplication):
         }
         for key, value in config.items():
             self.cfg.set(key.lower(), value)
+        self.cfg.set("cert_reqs", 0)
 
     def load(self):
+        ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+        ssl_context.check_hostname = False
+        ssl_context.verify_mode = ssl.CERT_NONE
+
+        self.options['ssl_context'] = ssl_context
         return self.application
 
 
