@@ -10,7 +10,9 @@ ENV PYTHONFAULTHANDLER=1 \
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y git libglib2.0-0 libgl1-mesa-glx && rm -rf /var/lib/apt/lists/*
+ADD https://github.com/smart-cab/certs.git /app/certs
+
+RUN apt-get update && apt-get install -y libglib2.0-0 libgl1-mesa-glx && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir "poetry==$POETRY_VERSION"
 
@@ -19,8 +21,6 @@ RUN poetry config --no-cache virtualenvs.create false && poetry install --no-cac
 
 COPY . .
 RUN poetry install --no-cache --no-interaction --no-ansi --only main
-
-RUN git clone --depth=1 https://github.com/smart-cab/certs.git /app/certs
 
 CMD ["poetry", "run", "python", "rpicam"]
 EXPOSE 5050
