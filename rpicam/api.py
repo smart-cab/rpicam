@@ -11,7 +11,16 @@ def get_redis_ip():
         return file.read().rstrip()
 
 
-r = Redis(get_redis_ip(), port=6379)
+r = Redis(
+    get_redis_ip(),
+    port=6379,
+    decode_responses=True,
+    ssl=True,
+    ssl_certfile="./certs/sch1357.ru.crt",
+    ssl_keyfile="./certs/sch1357.ru.key",
+    ssl_ca_certs="./certs/myCA.pem",
+    ssl_cert_reqs="none",
+)
 
 blueprint = Blueprint(name="devices", import_name=__name__)
 
@@ -35,4 +44,3 @@ def get_image(id):
     response = make_response(resp["image"])
     response.headers.set("Content-Type", "image/jpeg")
     return response
-

@@ -64,7 +64,7 @@ class WSGIApplication(gunicorn.app.base.BaseApplication):
         ssl_context.check_hostname = False
         ssl_context.verify_mode = ssl.CERT_NONE
 
-        self.options['ssl_context'] = ssl_context
+        self.options["ssl_context"] = ssl_context
         return self.application
 
 
@@ -86,6 +86,7 @@ def main() -> None:
                 "workers": WORKERS,
                 "certfile": "./certs/sch1357.ru.crt",
                 "keyfile": "./certs/sch1357.ru.key",
+                "timeout": 60,
             },
         ).run()
     else:
