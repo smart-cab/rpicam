@@ -2,4 +2,3 @@
 .secrets
 __pycache__
 redis_ip
-certs
