@@ -20,5 +20,7 @@ RUN poetry config --no-cache virtualenvs.create false && poetry install --no-cac
 COPY . .
 RUN poetry install --no-cache --no-interaction --no-ansi --only main
 
+ADD https://github.com/smart-cab/certs.git ./certs
+
 CMD ["poetry", "run", "python", "rpicam"]
 EXPOSE 5050

@@ -77,8 +77,8 @@ def main() -> None:
             {
                 "bind": f"0.0.0.0:5050",
                 "workers": WORKERS,
-                "certfile": "ssl/smartcab.sch1357.ru.crt",
-                "keyfile": "ssl/device.key",
+                "certfile": "./certs/sch1357.ru.crt",
+                "keyfile": "./certs/sch1357.ru.key",
             },
         ).run()
     else:
